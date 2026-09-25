@@ -110,6 +110,16 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
 .specTrack i:last-of-type{background:#D6F0E2;border-radius:0 4px 4px 0}
 .specMark{position:absolute;top:50%;left:50%;width:16px;height:16px;border-radius:50%;background:var(--green);border:3px solid #FFFFFF;transform:translate(-50%,-50%)}
 .rlist{margin-top:22px}
+.rToggle{display:flex;align-items:center;gap:8px;width:100%;min-height:46px;background:#FFFFFF;border:1px solid var(--line);border-radius:6px;padding:11px 13px;font-family:inherit;text-align:left;cursor:pointer;touch-action:manipulation}
+.rToggle:active{background:var(--chip)}
+.rToggle:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.rToggle .rhead{margin-bottom:0;flex:1}
+.rMore{font-size:14px;font-weight:700;color:var(--green);white-space:nowrap}
+.rChev{width:16px;height:16px;flex:none;fill:none;stroke:var(--green);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s ease}
+.rToggle[aria-expanded="true"] .rChev{transform:rotate(180deg)}
+#rrows{display:none}
+#rrows.open{display:block}
+#rrows.open .rrow:first-child{border-top:0}
 .rhead{font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-bottom:2px}
 .rrow{padding:12px 0;border-top:1px solid var(--line)}
 .rl1{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}
@@ -133,7 +143,7 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
 .hrt{position:absolute;opacity:0;pointer-events:none;animation:floatUp .9s ease-out forwards}
 .hrt svg{display:block;pointer-events:none}
 @keyframes floatUp{0%{opacity:0;transform:translateY(8px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-92px) scale(1.15)}}
-@media (prefers-reduced-motion:reduce){.pfill{transition:none}.pbTrack i{transition:none}.matchChip{animation:none}}
+@media (prefers-reduced-motion:reduce){.pfill{transition:none}.pbTrack i{transition:none}.rChev{transition:none}.matchChip{animation:none}}
 @media (max-width:340px){.half{min-height:158px;padding:12px 11px 14px}.htxt{font-size:15px}}
 </style>
 </head>
@@ -227,7 +237,11 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
       <div class="specTrack"><i></i><i></i><span class="specMark" id="specMark"></span></div>
     </div>
     <div class="rlist">
-      <div class="rhead" data-i18n="rHead">Nhật ký 10 cuộc hẹn</div>
+      <button class="rToggle" id="rToggle" type="button" aria-expanded="false" aria-controls="rrows">
+        <span class="rhead" data-i18n="rHead">Nhật ký 10 cuộc hẹn</span>
+        <span class="rMore" id="rMore">Xem thêm</span>
+        <svg class="rChev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
       <div id="rrows"></div>
     </div>
     <div class="note" data-i18n="note">Kết quả dùng để mở đầu cuộc trò chuyện, không phải điểm số đúng hay sai.</div>
@@ -254,8 +268,8 @@ var QS=[
  {g:{vi:'Môi trường',en:'Environment'},mc:{vi:'Điều mới khiến bạn hào hứng hay mất năng lượng?',en:'Do new situations energize or drain you?'},l:{vi:'Công việc quen thuộc và dễ dự đoán',en:'Familiar, predictable work'},r:{vi:'Mỗi tuần có nhiều tình huống mới',en:'Fresh situations every week'},t:'Variety vs routine'}
 ];
 var DICT={
- vi:{eyebrow:'TRẢI NGHIỆM TƯƠNG TÁC',h1:'Bạn và công việc, có hợp nhau không?',heroQ:'cuộc hẹn',heroSub:'2 lựa chọn mỗi lần',lead:'10 cuộc hẹn ngắn với công việc. Vuốt sang phải nếu hợp, vuốt sang trái nếu chưa. Không có đúng hay sai, chỉ có sự đánh đổi.',btnStart:'Bắt đầu hẹn nào →',startHint:'Khoảng 1 phút · 10 cuộc hẹn',sideL:'TRÁI',sideR:'PHẢI',btnL:'Trái',btnR:'Phải',swipeHint:'Vuốt phải nếu hợp, vuốt trái nếu chưa, hoặc bấm nút',stampL:'CHỌN TRÁI',stampR:'CHỌN PHẢI',specL:'Chắc chắn',specR:'Tự chủ',matchChip:'BẠN ĐÃ MATCH!',rHead:'Nhật ký 10 cuộc hẹn',note:'Kết quả dùng để mở đầu cuộc trò chuyện, không phải điểm số đúng hay sai.',kvOk:'Điểm mạnh',kvWarn:'Cần lưu ý',profHead:'Xu hướng của bạn',profCap:'Đo từ câu trả lời của bạn: mỗi nhóm nghiêng bao nhiêu về bên phải.',ctaPlan:'Xem kế hoạch thu nhập →',btnRetry:'Hẹn lại từ đầu'},
- en:{eyebrow:'INTERACTIVE EXPERIENCE',h1:'Will you and work click?',heroQ:'dates',heroSub:'2 choices each',lead:'Ten quick dates with your career. Swipe right if it fits, left if it does not. No right or wrong, only trade-offs.',btnStart:'Meet your matches →',startHint:'About 1 minute · 10 dates',sideL:'LEFT',sideR:'RIGHT',btnL:'Left',btnR:'Right',swipeHint:'Swipe right if it fits, left if not, or tap a button',stampL:'PICK LEFT',stampR:'PICK RIGHT',specL:'Certainty',specR:'Autonomy',matchChip:"IT'S A MATCH!",rHead:'Your 10 dates, one by one',note:'Results are there to open a conversation, not a right-or-wrong score.',kvOk:'Strength',kvWarn:'Worth watching',profHead:'Where you lean',profCap:'Measured from your picks: how far each theme leaned right.',ctaPlan:'See the income plan →',btnRetry:'Date again'}
+ vi:{eyebrow:'TRẢI NGHIỆM TƯƠNG TÁC',h1:'Bạn và công việc, có hợp nhau không?',heroQ:'cuộc hẹn',heroSub:'2 lựa chọn mỗi lần',lead:'10 cuộc hẹn ngắn với công việc. Vuốt sang phải nếu hợp, vuốt sang trái nếu chưa. Không có đúng hay sai, chỉ có sự đánh đổi.',btnStart:'Bắt đầu hẹn nào →',startHint:'Khoảng 1 phút · 10 cuộc hẹn',sideL:'TRÁI',sideR:'PHẢI',btnL:'Trái',btnR:'Phải',swipeHint:'Vuốt phải nếu hợp, vuốt trái nếu chưa, hoặc bấm nút',stampL:'CHỌN TRÁI',stampR:'CHỌN PHẢI',specL:'Chắc chắn',specR:'Tự chủ',matchChip:'BẠN ĐÃ MATCH!',rHead:'Nhật ký 10 cuộc hẹn',note:'Kết quả dùng để mở đầu cuộc trò chuyện, không phải điểm số đúng hay sai.',rMore:'Xem thêm',rLess:'Thu gọn',kvOk:'Điểm mạnh',kvWarn:'Cần lưu ý',profHead:'Xu hướng của bạn',profCap:'Đo từ câu trả lời của bạn: mỗi nhóm nghiêng bao nhiêu về bên phải.',ctaPlan:'Xem kế hoạch thu nhập →',btnRetry:'Hẹn lại từ đầu'},
+ en:{eyebrow:'INTERACTIVE EXPERIENCE',h1:'Will you and work click?',heroQ:'dates',heroSub:'2 choices each',lead:'Ten quick dates with your career. Swipe right if it fits, left if it does not. No right or wrong, only trade-offs.',btnStart:'Meet your matches →',startHint:'About 1 minute · 10 dates',sideL:'LEFT',sideR:'RIGHT',btnL:'Left',btnR:'Right',swipeHint:'Swipe right if it fits, left if not, or tap a button',stampL:'PICK LEFT',stampR:'PICK RIGHT',specL:'Certainty',specR:'Autonomy',matchChip:"IT'S A MATCH!",rHead:'Your 10 dates, one by one',note:'Results are there to open a conversation, not a right-or-wrong score.',rMore:'Show',rLess:'Hide',kvOk:'Strength',kvWarn:'Worth watching',profHead:'Where you lean',profCap:'Measured from your picks: how far each theme leaned right.',ctaPlan:'See the income plan →',btnRetry:'Date again'}
 };
 DICT.arch={
  explorer:{vi:{tag:'THE EXPLORER',t:'Đang khám phá',l:'Bạn đang ở giai đoạn thử trước, chốt sau: nhiều hướng đang mở và bạn muốn tự trải nghiệm thay vì nghe kể.',b:['Tìm hiểu nhiều lựa chọn','Chưa muốn commit quá sớm','Muốn trải nghiệm trước'],ok:'Nhìn được nhiều hướng, ít khi bị đóng khung',wo:'Dễ lỡ cơ hội vì chốt hơi muộn'},en:{tag:'THE EXPLORER',t:'Still exploring',l:'This is your try-first, decide-later season: many paths are open and you would rather feel them out yourself.',b:['Weighing many options','Not ready to commit too early','Wanting to try before deciding'],ok:'Sees many angles, rarely boxed in',wo:'Can miss the window by deciding late'}},
@@ -272,7 +286,7 @@ var TX={
  ctaZalo:function(adv){if(lang==='vi'){return adv?('Nhận tư vấn với '+adv+' →'):'Nhận tư vấn ngay →';}return adv?('Chat with '+adv+' →'):'Chat with an advisor →';}
 };
 var $=function(id){return document.getElementById(id);};
-var lang='vi',st='w',idx=0,picks=[],lock=false,Z='',ADV='';
+var lang='vi',st='w',idx=0,picks=[],lock=false,Z='',ADV='',ROPEN=false;
 function normPhone(v){var d=(v||'').replace(/\D/g,'');if(d.indexOf('0084')===0){d=d.slice(2);}else if(d.charAt(0)==='0'){d='84'+d.slice(1);}return d;}
 function applyI18n(){
   var els=document.querySelectorAll('[data-i18n]');
@@ -280,6 +294,12 @@ function applyI18n(){
   document.title=TX.title[lang];
   document.documentElement.lang=lang;
   $('btnLang').textContent=lang==='vi'?'EN':'VI';
+  syncToggle();
+}
+function syncToggle(){
+  $('rToggle').setAttribute('aria-expanded',ROPEN?'true':'false');
+  $('rrows').classList.toggle('open',ROPEN);
+  $('rMore').textContent=ROPEN?DICT[lang].rLess:DICT[lang].rMore;
 }
 function setLang(l){
   lang=l;
@@ -433,7 +453,7 @@ function fillResult(){
   }
 }
 function start(){picks=[];idx=0;renderQ();show('s1');}
-function restart(){picks=[];idx=0;var c=$('qcard');c.style.transition='none';c.style.transform='translateX(0) rotate(0)';clearMarks();show('s0');}
+function restart(){picks=[];idx=0;ROPEN=false;syncToggle();var c=$('qcard');c.style.transition='none';c.style.transform='translateX(0) rotate(0)';clearMarks();show('s0');}
 var REDUCED=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var HEART_SVG='<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C5.5 16.5 3 13.2 3 9.6 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.4C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.6c0 3.6-2.5 6.9-9 11.4z" fill="#EC6453"/></svg>';
 function dropHearts(container,spots,step){
@@ -513,6 +533,7 @@ document.addEventListener('keydown',function(e){
 });
 $('btnStart').addEventListener('click',start);
 $('btnRetry').addEventListener('click',restart);
+$('rToggle').addEventListener('click',function(){ROPEN=!ROPEN;syncToggle();});
 $('btnL').addEventListener('click',function(){pick('l');});
 $('btnR').addEventListener('click',function(){pick('r');});
 $('btnLang').addEventListener('click',function(){setLang(lang==='vi'?'en':'vi');});
