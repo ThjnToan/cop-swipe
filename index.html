@@ -206,13 +206,6 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
   </section>
 
   <section class="screen" id="s2">
-    <div class="hero">
-      <div><span class="heroNum" id="rScore">0</span><span class="heroDen">/10</span></div>
-      <div class="heroMeta">
-        <b id="rScoreLbl">lựa chọn nghiêng về bên phải</b>
-        <span id="rScoreSub">tự chủ · linh hoạt · chủ động</span>
-      </div>
-    </div>
     <div class="matchChip"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C5.5 16.5 3 13.2 3 9.6 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.4C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.6c0 3.6-2.5 6.9-9 11.4z"/></svg><span data-i18n="matchChip">BẠN ĐÃ MATCH!</span></div>
     <div class="heartLayer" id="heartLayer"></div>
     <div class="arch">
@@ -280,8 +273,6 @@ DICT.arch={
 var TX={
  title:{vi:'Bạn và công việc, có hợp nhau không? | Manulife COP',en:'Will you and work click? | Manulife COP'},
  pnum:function(n){return lang==='vi'?('Cuộc hẹn '+n+' / 10'):('Date '+n+' / 10');},
- scoreLbl:{vi:'lựa chọn nghiêng về bên phải',en:'swipes went right'},
- scoreSub:{vi:'tự chủ · linh hoạt · chủ động',en:'autonomy · flexibility · initiative'},
  rside:function(s){if(lang==='vi'){return s==='r'?'Bên phải':'Bên trái';}return s==='r'?'Right':'Left';},
  ctaZalo:function(adv){if(lang==='vi'){return adv?('Nhận tư vấn với '+adv+' →'):'Nhận tư vấn ngay →';}return adv?('Chat with '+adv+' →'):'Chat with an advisor →';}
 };
@@ -412,9 +403,6 @@ var ARROW_L='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke=
 function fillResult(){
   var R=0,i;
   for(i=0;i<picks.length;i++){if(picks[i]==='r'){R++;}}
-  $('rScore').textContent=R;
-  $('rScoreLbl').textContent=TX.scoreLbl[lang];
-  $('rScoreSub').textContent=TX.scoreSub[lang];
   var mp=(R+0.5)*10;
   $('specMark').style.left=Math.max(5,Math.min(95,mp))+'%';
   var bk=bucket(R),b=DICT.arch[bk][lang];
