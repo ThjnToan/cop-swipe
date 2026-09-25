@@ -74,7 +74,12 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
 .side.rs svg{stroke:var(--green)}
 .arch{border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
 .archT{font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px;text-wrap:balance}
-.archD{font-size:15px;line-height:1.55;color:var(--mut);text-wrap:balance}
+.archHead{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.aIco{width:17px;height:17px;flex:none;fill:none;stroke:var(--coral);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.archTag{font-size:14px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--green)}
+.aList{list-style:none;display:flex;flex-direction:column;gap:7px}
+.aList li{position:relative;padding-left:18px;font-size:15px;line-height:1.5;color:var(--mut);text-wrap:balance}
+.aList li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;background:var(--coral)}
 .spec{margin-bottom:6px}
 .specEnds{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:7px}
 .specEnds span:first-child{color:var(--mut)}
@@ -181,8 +186,9 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
     <div class="matchChip"><svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21C5.5 16.5 3 13.2 3 9.6 3 7 5 5 7.5 5c1.7 0 3.2.9 4.5 2.4C13.3 5.9 14.8 5 16.5 5 19 5 21 7 21 9.6c0 3.6-2.5 6.9-9 11.4z"/></svg><span data-i18n="matchChip">BẠN ĐÃ MATCH!</span></div>
     <div class="heartLayer" id="heartLayer"></div>
     <div class="arch">
+      <div class="archHead"><svg class="aIco" id="aIco" viewBox="0 0 24 24" aria-hidden="true"></svg><span class="archTag" id="aTag"></span></div>
       <div class="archT" id="aT"></div>
-      <div class="archD" id="aD"></div>
+      <ul class="aList" id="aB"></ul>
     </div>
     <div class="spec">
       <div class="specEnds"><span data-i18n="specL">Chắc chắn</span><span data-i18n="specR">Tự chủ</span></div>
@@ -220,11 +226,10 @@ var DICT={
  en:{eyebrow:'INTERACTIVE EXPERIENCE',h1:'Will you and work click?',heroQ:'dates',heroSub:'2 choices each',lead:'Ten quick dates with your career. Swipe right if it fits, left if it does not. No right or wrong, only trade-offs.',btnStart:'Meet your matches →',startHint:'About 1 minute · 10 dates',sideL:'LEFT',sideR:'RIGHT',btnL:'Left',btnR:'Right',swipeHint:'Swipe right if it fits, left if not, or tap a button',stampL:'PICK LEFT',stampR:'PICK RIGHT',specL:'Certainty',specR:'Autonomy',matchChip:"IT'S A MATCH!",rHead:'Your 10 dates, one by one',note:'Results are there to open a conversation, not a right-or-wrong score.',ctaPlan:'See the income plan →',btnRetry:'Date again'}
 };
 DICT.arch={
- steady:{vi:{t:'Người của sự chắc chắn',d:'Bạn làm việc tốt nhất khi biết rõ quy trình và nhịp sống ổn định. Sự dự đoán được cho bạn không gian để tập trung vào điều quan trọng.'},en:{t:'The Steady One',d:'You do your best work when the process is clear and the rhythm is stable. Predictability gives you room to focus on what matters.'}},
- balanced:{vi:{t:'Người cân bằng có chọn lọc',d:'Bạn chấp nhận thay đổi khi nó đáng để đổi, nhưng vẫn muốn một nền tảng ổn định để bám vào.'},en:{t:'The Selective Balancer',d:'You accept change when it is worth the trade, but you still want a solid base to stand on.'}},
- flexible:{vi:{t:'Người thích không gian tự chủ',d:'Bạn sẵn sàng đổi một chút bất ổn lấy quyền tự quyết. Quan trọng là được chọn cách làm, không chỉ là làm theo.'},en:{t:'The Autonomy Seeker',d:'You would trade a little uncertainty for the freedom to decide how things get done. Choice of method matters to you, not just the task.'}},
- starter:{vi:{t:'Người chủ động',d:'Bạn tự mở cửa thay vì chờ được chỉ đường. Tình huống mới và con người mới nạp năng lượng cho bạn.'},en:{t:'The Self-Starter',d:'You open doors yourself instead of waiting to be shown the way. New situations and new people charge your battery.'}},
- blaze:{vi:{t:'Người bứt phá',d:'Bạn chọn tốc độ và độ rộng: mỗi tuần nhiều việc, nhiều người, nhiều tình huống mới. Tăng trưởng nhanh qua thử thách là sự đánh đổi xứng đáng với bạn.'},en:{t:'The Trailblazer',d:'You choose speed and breadth: many tasks, many people, new situations every week. Fast growth through challenges is a trade you are willing to make.'}}
+ explorer:{vi:{tag:'THE EXPLORER',t:'Đang khám phá',b:['Tìm hiểu nhiều lựa chọn','Chưa muốn commit quá sớm','Muốn trải nghiệm trước']},en:{tag:'THE EXPLORER',t:'Still exploring',b:['Weighing many options','Not ready to commit too early','Wanting to try before deciding']}},
+ builder:{vi:{tag:'THE BUILDER',t:'Người xây dựng',b:['Phát triển rõ ràng','Học kỹ năng mới','Tiến từng bước chắc chắn']},en:{tag:'THE BUILDER',t:'Building steadily',b:['Clear, visible progress','Learning new skills','Moving forward step by step']}},
+ achiever:{vi:{tag:'THE ACHIEVER',t:'Người bứt phá',b:['Tăng trưởng','Thành tích','Thu nhập theo năng lực']},en:{tag:'THE ACHIEVER',t:'Breaking through',b:['Growth','Achievement','Income that follows performance']}},
+ entrepreneur:{vi:{tag:'THE ENTREPRENEUR',t:'Người kiến tạo',b:['Tự chủ','Tạo cơ hội','Xây dựng điều gì đó của riêng mình']},en:{tag:'THE ENTREPRENEUR',t:'Forging your own path',b:['Autonomy','Creating opportunities','Building something of your own']}}
 };
 var TX={
  title:{vi:'Bạn và công việc, có hợp nhau không? | Manulife COP',en:'Will you and work click? | Manulife COP'},
@@ -337,12 +342,17 @@ function pick(side){
   },300);
 }
 function bucket(R){
-  if(R<=2){return 'steady';}
-  if(R<=4){return 'balanced';}
-  if(R<=6){return 'flexible';}
-  if(R<=8){return 'starter';}
-  return 'blaze';
+  if(R<=2){return 'explorer';}
+  if(R<=5){return 'builder';}
+  if(R<=8){return 'achiever';}
+  return 'entrepreneur';
 }
+var ICONS={
+ explorer:'<circle cx="10.5" cy="10.5" r="6.7"/><path d="M15.4 15.4L21 21"/>',
+ builder:'<rect x="3.6" y="13.6" width="6.8" height="6.8"/><rect x="13.6" y="13.6" width="6.8" height="6.8"/><rect x="8.6" y="3.6" width="6.8" height="6.8"/>',
+ achiever:'<circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/><path d="M12 12h.01"/>',
+ entrepreneur:'<path d="M12 2.6c2.7 2.2 4.1 5.3 4.1 9v3.5l-2.4 2.4h-3.4L7.9 15.1v-3.5c0-3.7 1.4-6.8 4.1-9z"/><path d="M7.9 15.1L5.5 19l3.3-1.2M16.1 15.1L18.5 19l-3.3-1.2"/><circle cx="12" cy="9.4" r="1.7"/>'
+};
 var ARROW_R='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00A758" stroke-width="2.2" aria-hidden="true"><path d="M4 12h13"/><path d="M12 6l6 6-6 6"/></svg>';
 var ARROW_L='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0000C1" stroke-width="2.2" aria-hidden="true"><path d="M20 12H7"/><path d="M12 6l-6 6 6 6"/></svg>';
 function fillResult(){
@@ -351,10 +361,14 @@ function fillResult(){
   $('rScore').textContent=R;
   $('rScoreLbl').textContent=TX.scoreLbl[lang];
   $('rScoreSub').textContent=TX.scoreSub[lang];
-  $('specMark').style.left=((R+0.5)*10)+'%';
-  var b=DICT.arch[bucket(R)][lang];
+  var mp=(R+0.5)*10;
+  $('specMark').style.left=Math.max(5,Math.min(95,mp))+'%';
+  var bk=bucket(R),b=DICT.arch[bk][lang];
+  $('aTag').textContent=b.tag;
   $('aT').textContent=b.t;
-  $('aD').textContent=b.d;
+  $('aIco').innerHTML=ICONS[bk];
+  var bl=$('aB');bl.textContent='';
+  for(var q=0;q<b.b.length;q++){var li=document.createElement('li');li.textContent=b.b[q];bl.appendChild(li);}
   var rows=$('rrows');
   rows.textContent='';
   for(i=0;i<QS.length;i++){
