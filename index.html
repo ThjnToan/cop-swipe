@@ -80,6 +80,26 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
 .aList{list-style:none;display:flex;flex-direction:column;gap:7px}
 .aList li{position:relative;padding-left:18px;font-size:15px;line-height:1.5;color:var(--mut);text-wrap:balance}
 .aList li::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;background:var(--coral)}
+.archL{font-size:15px;line-height:1.55;color:var(--mut);margin:0 0 13px;text-wrap:balance}
+.aKV{display:flex;flex-direction:column;gap:8px;margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.kvRow{display:flex;gap:8px;align-items:flex-start}
+.kvRow svg{flex:none;width:16px;height:16px;margin-top:2px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.kvRow svg.kOk{stroke:var(--green)}
+.kvRow svg.kWarn{stroke:var(--coral)}
+.kvBody{font-size:14px;line-height:1.45;color:var(--mut);text-wrap:balance}
+.kvLbl{font-size:14px;font-weight:700;color:var(--ink)}
+.kvLbl::after{content:": "}
+.prof{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.profCap{font-size:13.5px;line-height:1.45;color:var(--mut);text-wrap:balance}
+.pb{margin-top:11px}
+.pbTop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.pbLbl{font-size:14px;font-weight:700;color:var(--ink)}
+.pbVal{font-size:14px;font-weight:700;color:var(--mut);font-variant-numeric:tabular-nums}
+.pbTrack{height:8px;background:var(--track);border-radius:4px;overflow:hidden}
+.pbTrack i{display:block;height:8px;width:0;border-radius:4px;transition:width .6s ease}
+.pbTrack i.c0{background:var(--blue)}
+.pbTrack i.c1{background:var(--coral)}
+.pbTrack i.c2{background:var(--green)}
 .spec{margin-bottom:6px}
 .specEnds{display:flex;justify-content:space-between;font-size:14px;font-weight:700;margin-bottom:7px}
 .specEnds span:first-child{color:var(--mut)}
@@ -113,7 +133,7 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
 .hrt{position:absolute;opacity:0;pointer-events:none;animation:floatUp .9s ease-out forwards}
 .hrt svg{display:block;pointer-events:none}
 @keyframes floatUp{0%{opacity:0;transform:translateY(8px) scale(.6)}25%{opacity:1}100%{opacity:0;transform:translateY(-92px) scale(1.15)}}
-@media (prefers-reduced-motion:reduce){.pfill{transition:none}.matchChip{animation:none}}
+@media (prefers-reduced-motion:reduce){.pfill{transition:none}.pbTrack i{transition:none}.matchChip{animation:none}}
 @media (max-width:340px){.half{min-height:158px;padding:12px 11px 14px}.htxt{font-size:15px}}
 </style>
 </head>
@@ -188,7 +208,19 @@ h1{font-size:24px;line-height:1.25;font-weight:700;margin-bottom:16px;text-wrap:
     <div class="arch">
       <div class="archHead"><svg class="aIco" id="aIco" viewBox="0 0 24 24" aria-hidden="true"></svg><span class="archTag" id="aTag"></span></div>
       <div class="archT" id="aT"></div>
+      <p class="archL" id="aL"></p>
       <ul class="aList" id="aB"></ul>
+      <div class="aKV">
+        <div class="kvRow"><svg class="kOk" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg><span class="kvBody"><b class="kvLbl" data-i18n="kvOk">Điểm mạnh</b><span class="kvTxt" id="aOk"></span></span></div>
+        <div class="kvRow"><svg class="kWarn" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5L21 20H3z"/><path d="M12 10.5v4"/><path d="M12 17.2h.01"/></svg><span class="kvBody"><b class="kvLbl" data-i18n="kvWarn">Cần lưu ý</b><span class="kvTxt" id="aWarn"></span></span></div>
+      </div>
+      <div class="prof">
+        <div class="rhead" data-i18n="profHead">Xu hướng của bạn</div>
+        <div class="profCap" data-i18n="profCap">Đo từ câu trả lời của bạn: mỗi nhóm nghiêng bao nhiêu về bên phải.</div>
+        <div class="pb"><div class="pbTop"><span class="pbLbl" id="pbL0"></span><span class="pbVal" id="pbV0"></span></div><div class="pbTrack"><i class="c0" id="pbF0"></i></div></div>
+        <div class="pb"><div class="pbTop"><span class="pbLbl" id="pbL1"></span><span class="pbVal" id="pbV1"></span></div><div class="pbTrack"><i class="c1" id="pbF1"></i></div></div>
+        <div class="pb"><div class="pbTop"><span class="pbLbl" id="pbL2"></span><span class="pbVal" id="pbV2"></span></div><div class="pbTrack"><i class="c2" id="pbF2"></i></div></div>
+      </div>
     </div>
     <div class="spec">
       <div class="specEnds"><span data-i18n="specL">Chắc chắn</span><span data-i18n="specR">Tự chủ</span></div>
@@ -222,14 +254,14 @@ var QS=[
  {g:{vi:'Môi trường',en:'Environment'},mc:{vi:'Điều mới khiến bạn hào hứng hay mất năng lượng?',en:'Do new situations energize or drain you?'},l:{vi:'Công việc quen thuộc và dễ dự đoán',en:'Familiar, predictable work'},r:{vi:'Mỗi tuần có nhiều tình huống mới',en:'Fresh situations every week'},t:'Variety vs routine'}
 ];
 var DICT={
- vi:{eyebrow:'TRẢI NGHIỆM TƯƠNG TÁC',h1:'Bạn và công việc, có hợp nhau không?',heroQ:'cuộc hẹn',heroSub:'2 lựa chọn mỗi lần',lead:'10 cuộc hẹn ngắn với công việc. Vuốt sang phải nếu hợp, vuốt sang trái nếu chưa. Không có đúng hay sai, chỉ có sự đánh đổi.',btnStart:'Bắt đầu hẹn nào →',startHint:'Khoảng 1 phút · 10 cuộc hẹn',sideL:'TRÁI',sideR:'PHẢI',btnL:'Trái',btnR:'Phải',swipeHint:'Vuốt phải nếu hợp, vuốt trái nếu chưa, hoặc bấm nút',stampL:'CHỌN TRÁI',stampR:'CHỌN PHẢI',specL:'Chắc chắn',specR:'Tự chủ',matchChip:'BẠN ĐÃ MATCH!',rHead:'Nhật ký 10 cuộc hẹn',note:'Kết quả dùng để mở đầu cuộc trò chuyện, không phải điểm số đúng hay sai.',ctaPlan:'Xem kế hoạch thu nhập →',btnRetry:'Hẹn lại từ đầu'},
- en:{eyebrow:'INTERACTIVE EXPERIENCE',h1:'Will you and work click?',heroQ:'dates',heroSub:'2 choices each',lead:'Ten quick dates with your career. Swipe right if it fits, left if it does not. No right or wrong, only trade-offs.',btnStart:'Meet your matches →',startHint:'About 1 minute · 10 dates',sideL:'LEFT',sideR:'RIGHT',btnL:'Left',btnR:'Right',swipeHint:'Swipe right if it fits, left if not, or tap a button',stampL:'PICK LEFT',stampR:'PICK RIGHT',specL:'Certainty',specR:'Autonomy',matchChip:"IT'S A MATCH!",rHead:'Your 10 dates, one by one',note:'Results are there to open a conversation, not a right-or-wrong score.',ctaPlan:'See the income plan →',btnRetry:'Date again'}
+ vi:{eyebrow:'TRẢI NGHIỆM TƯƠNG TÁC',h1:'Bạn và công việc, có hợp nhau không?',heroQ:'cuộc hẹn',heroSub:'2 lựa chọn mỗi lần',lead:'10 cuộc hẹn ngắn với công việc. Vuốt sang phải nếu hợp, vuốt sang trái nếu chưa. Không có đúng hay sai, chỉ có sự đánh đổi.',btnStart:'Bắt đầu hẹn nào →',startHint:'Khoảng 1 phút · 10 cuộc hẹn',sideL:'TRÁI',sideR:'PHẢI',btnL:'Trái',btnR:'Phải',swipeHint:'Vuốt phải nếu hợp, vuốt trái nếu chưa, hoặc bấm nút',stampL:'CHỌN TRÁI',stampR:'CHỌN PHẢI',specL:'Chắc chắn',specR:'Tự chủ',matchChip:'BẠN ĐÃ MATCH!',rHead:'Nhật ký 10 cuộc hẹn',note:'Kết quả dùng để mở đầu cuộc trò chuyện, không phải điểm số đúng hay sai.',kvOk:'Điểm mạnh',kvWarn:'Cần lưu ý',profHead:'Xu hướng của bạn',profCap:'Đo từ câu trả lời của bạn: mỗi nhóm nghiêng bao nhiêu về bên phải.',ctaPlan:'Xem kế hoạch thu nhập →',btnRetry:'Hẹn lại từ đầu'},
+ en:{eyebrow:'INTERACTIVE EXPERIENCE',h1:'Will you and work click?',heroQ:'dates',heroSub:'2 choices each',lead:'Ten quick dates with your career. Swipe right if it fits, left if it does not. No right or wrong, only trade-offs.',btnStart:'Meet your matches →',startHint:'About 1 minute · 10 dates',sideL:'LEFT',sideR:'RIGHT',btnL:'Left',btnR:'Right',swipeHint:'Swipe right if it fits, left if not, or tap a button',stampL:'PICK LEFT',stampR:'PICK RIGHT',specL:'Certainty',specR:'Autonomy',matchChip:"IT'S A MATCH!",rHead:'Your 10 dates, one by one',note:'Results are there to open a conversation, not a right-or-wrong score.',kvOk:'Strength',kvWarn:'Worth watching',profHead:'Where you lean',profCap:'Measured from your picks: how far each theme leaned right.',ctaPlan:'See the income plan →',btnRetry:'Date again'}
 };
 DICT.arch={
- explorer:{vi:{tag:'THE EXPLORER',t:'Đang khám phá',b:['Tìm hiểu nhiều lựa chọn','Chưa muốn commit quá sớm','Muốn trải nghiệm trước']},en:{tag:'THE EXPLORER',t:'Still exploring',b:['Weighing many options','Not ready to commit too early','Wanting to try before deciding']}},
- builder:{vi:{tag:'THE BUILDER',t:'Người xây dựng',b:['Phát triển rõ ràng','Học kỹ năng mới','Tiến từng bước chắc chắn']},en:{tag:'THE BUILDER',t:'Building steadily',b:['Clear, visible progress','Learning new skills','Moving forward step by step']}},
- achiever:{vi:{tag:'THE ACHIEVER',t:'Người bứt phá',b:['Tăng trưởng','Thành tích','Thu nhập theo năng lực']},en:{tag:'THE ACHIEVER',t:'Breaking through',b:['Growth','Achievement','Income that follows performance']}},
- entrepreneur:{vi:{tag:'THE ENTREPRENEUR',t:'Người kiến tạo',b:['Tự chủ','Tạo cơ hội','Xây dựng điều gì đó của riêng mình']},en:{tag:'THE ENTREPRENEUR',t:'Forging your own path',b:['Autonomy','Creating opportunities','Building something of your own']}}
+ explorer:{vi:{tag:'THE EXPLORER',t:'Đang khám phá',l:'Bạn đang ở giai đoạn thử trước, chốt sau: nhiều hướng đang mở và bạn muốn tự trải nghiệm thay vì nghe kể.',b:['Tìm hiểu nhiều lựa chọn','Chưa muốn commit quá sớm','Muốn trải nghiệm trước'],ok:'Nhìn được nhiều hướng, ít khi bị đóng khung',wo:'Dễ lỡ cơ hội vì chốt hơi muộn'},en:{tag:'THE EXPLORER',t:'Still exploring',l:'This is your try-first, decide-later season: many paths are open and you would rather feel them out yourself.',b:['Weighing many options','Not ready to commit too early','Wanting to try before deciding'],ok:'Sees many angles, rarely boxed in',wo:'Can miss the window by deciding late'}},
+ builder:{vi:{tag:'THE BUILDER',t:'Người xây dựng',l:'Bạn không vội, bạn xây: mỗi bước đều đặt trên nền đã kiểm chứng.',b:['Phát triển rõ ràng','Học kỹ năng mới','Tiến từng bước chắc chắn'],ok:'Nền tảng vững, tiến đều và khó đổ',wo:'Đủ chắc rồi thì nhớ đủ nhanh'},en:{tag:'THE BUILDER',t:'Building steadily',l:'You are not rushing, you are building: every step sits on ground you have already tested.',b:['Clear, visible progress','Learning new skills','Moving forward step by step'],ok:'Solid base, steady progress, hard to knock over',wo:'Once it is solid, remember to be fast'}},
+ achiever:{vi:{tag:'THE ACHIEVER',t:'Người bứt phá',l:'Bạn chọn đi nhanh thay vì đi an toàn: kết quả đo được là cách bạn biết mình đang tiến.',b:['Tăng trưởng','Thành tích','Thu nhập theo năng lực'],ok:'Biến mục tiêu thành con số di chuyển được',wo:'Nhịp nhanh dễ quên nghỉ'},en:{tag:'THE ACHIEVER',t:'Breaking through',l:'You choose speed over safety: measurable results are how you know you are moving.',b:['Growth','Achievement','Income that follows performance'],ok:'Turns goals into numbers that actually move',wo:'A fast pace makes rest easy to forget'}},
+ entrepreneur:{vi:{tag:'THE ENTREPRENEUR',t:'Người kiến tạo',l:'Bạn không chờ cơ hội tới: bạn mở đường và muốn làm chủ những gì mình dựng.',b:['Tự chủ','Tạo cơ hội','Xây dựng điều gì đó của riêng mình'],ok:'Tự mở đường, dám bắt đầu trước',wo:'Hay gánh thay, khó ủy quyền'},en:{tag:'THE ENTREPRENEUR',t:'Forging your own path',l:'You do not wait for chances: you open the road and you want to own what you build.',b:['Autonomy','Creating opportunities','Building something of your own'],ok:'Opens the road, dares to go first',wo:'Tends to carry it all, hard to delegate'}}
 };
 var TX={
  title:{vi:'Bạn và công việc, có hợp nhau không? | Manulife COP',en:'Will you and work click? | Manulife COP'},
@@ -347,6 +379,8 @@ function bucket(R){
   if(R<=8){return 'achiever';}
   return 'entrepreneur';
 }
+var PROF=[[0,1,9],[2,3,8],[4,5,6,7]];
+var PROFL={vi:['Linh hoạt & mới mẻ','Tham vọng & thử thách','Kết nối & chủ động'],en:['Flexible & fresh','Ambition & challenge','Initiative & connection']};
 var ICONS={
  explorer:'<circle cx="10.5" cy="10.5" r="6.7"/><path d="M15.4 15.4L21 21"/>',
  builder:'<rect x="3.6" y="13.6" width="6.8" height="6.8"/><rect x="13.6" y="13.6" width="6.8" height="6.8"/><rect x="8.6" y="3.6" width="6.8" height="6.8"/>',
@@ -367,8 +401,19 @@ function fillResult(){
   $('aTag').textContent=b.tag;
   $('aT').textContent=b.t;
   $('aIco').innerHTML=ICONS[bk];
+  $('aL').textContent=b.l;
   var bl=$('aB');bl.textContent='';
   for(var q=0;q<b.b.length;q++){var li=document.createElement('li');li.textContent=b.b[q];bl.appendChild(li);}
+  $('aOk').textContent=b.ok;
+  $('aWarn').textContent=b.wo;
+  for(var a=0;a<PROF.length;a++){
+    var g=PROF[a],hit=0;
+    for(var z=0;z<g.length;z++){if(picks[g[z]]==='r'){hit++;}}
+    var pct=Math.round(hit/g.length*100);
+    $('pbL'+a).textContent=PROFL[lang][a];
+    $('pbV'+a).textContent=pct+'%';
+    $('pbF'+a).style.width=pct+'%';
+  }
   var rows=$('rrows');
   rows.textContent='';
   for(i=0;i<QS.length;i++){
